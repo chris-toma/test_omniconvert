@@ -1,3 +1,11 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+transactions_index:
+  path: /transactions
+  controller: App\Controller\TransactionController::index
+
+transactions_create:
+  path: /transactions/create
+  controller: App\Controller\TransactionController::create
