@@ -1,9 +1,14 @@
 # test_omniconvert
 
 ```bash
-compser update
+composer update
+```
+set the database in env file
+
+```bash
 php bin/console doctrine:database:create  
-php bin/console doctrine:migrations:migrate  
+php bin/console doctrine:migrations:migrate
+symfony serve
 ```
 
 Valid endpoints:<br>
