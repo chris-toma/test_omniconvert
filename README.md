@@ -2,10 +2,12 @@
 
 ```bash
 composer update
-
+```
 create .env.local in root folder and add the connection to DB
+```bash
 DATABASE_URL=mysql://db_user:db_pass@127.0.0.1:3306/db_name
-
+```
+```bash
 php bin/console doctrine:database:create  
 php bin/console doctrine:migrations:migrate
 symfony serve
