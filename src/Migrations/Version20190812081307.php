@@ -33,9 +33,9 @@ final class Version20190812081307 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE transaction DROP created_at');
-        $this->addSql('ALTER TABLE transaction DROP index user_id');
-        $this->addSql('ALTER TABLE transaction DROP index transaction_id');
         $this->addSql('ALTER TABLE transaction DROP index `user_transaction`');
+        $this->addSql('ALTER TABLE transaction DROP index transaction_id');
+        $this->addSql('ALTER TABLE transaction DROP index user_id');
+        $this->addSql('ALTER TABLE transaction DROP created_at');
     }
 }
