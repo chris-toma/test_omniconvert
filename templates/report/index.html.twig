@@ -3,21 +3,23 @@
 {% block title %}Hello ReportController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/christoma/Sites/test_omniconvert/src/Controller/ReportController.php'|file_link(0) }}">src/Controller/ReportController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/christoma/Sites/test_omniconvert/templates/report/index.html.twig'|file_link(0) }}">templates/report/index.html.twig</a></code></li>
-    </ul>
-    <div class="col-sm-12">
-        <div class="col-sm-4">
+    <div class="example-wrapper">
+        {{ form(form) }}
+        <div class="col-sm-12">
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -26,45 +28,60 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>5</td>
-                </tr>
+                {% for t in top5ByTransaction %}
+                    <tr>
+                        <td>{{ t.user_id }}</td>
+                        <td>{{ t.transaction_count }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-12">
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <td>User Id</td>
-                    <td>Transaction count</td>
+                    <td>Amount sum</td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>5</td>
-                </tr>
+                {% for t in top5ByAmount %}
+                    <tr>
+                        <td>{{ t.user_id }}</td>
+                        <td>{{ t.amount_sum }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-12">
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <td>User Id</td>
-                    <td>Transaction count</td>
+                    <td>Date</td>
+                    <td>Total amount</td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>5</td>
-                </tr>
+                {% for t in totalAmountEvolution %}
+                    <tr>
+                        <td>{{ t.created_at }}</td>
+                        <td>{{ t.amount_sum }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
+
+        <a href="{{ path('transaction_delete') }}"
+           onclick="return confirm('Are u sure?')"
+           class="btn btn-danger"
+        >Delete all transactions</a>
+
+        <a href="{{ path('transaction_dummy_data') }}"
+           onclick="return confirm('Are u sure? All data will be deleted')"
+           class="btn btn-danger"
+        >Insert dummy data</a>
     </div>
-</div>
 {% endblock %}

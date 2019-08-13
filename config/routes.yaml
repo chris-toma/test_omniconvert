@@ -1,11 +1,15 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-
-transactions_index:
-  path: /transactions
-  controller: App\Controller\TransactionController::index
-
 transactions_create:
   path: /transactions/create
   controller: App\Controller\TransactionController::create
+
+transaction_delete:
+  path: /transactions/delete-all
+  controller: App\Controller\TransactionController::deleteAll
+
+transaction_dummy_data:
+  path: /transactions/dummy-data
+  controller: App\Controller\TransactionController::dummyData
+
+report:
+  path: /report
+  controller: App\Controller\ReportController::index

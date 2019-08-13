@@ -1,9 +1,5 @@
 <?php
-
-
 namespace App\Helpers;
-
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class DateHelper
@@ -20,12 +16,9 @@ class DateHelper
     {
         $min = strtotime($start);
         $max = strtotime($end);
-
         // Generate random number using above bounds
         $val = rand($min, $max);
-
         // Convert back to desired date format
         return date('Y-m-d', $val);
     }
-
 }
