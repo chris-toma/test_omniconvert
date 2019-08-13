@@ -147,8 +147,8 @@ class TransactionController extends ApiController
                 $transaction->setCreatedAt(DateHelper::randomDateInRange('2019-01-01', date('Y-m-d')));
                 $em->persist($transaction);
             }
-        }
             $em->flush();
+        }
         return $this->redirectToRoute('report');
     }
 }
