@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TransactionRepository")
- *
  *
  */
 class Transaction
@@ -79,7 +80,7 @@ class Transaction
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt()
     {
         return $this->created_at;
     }

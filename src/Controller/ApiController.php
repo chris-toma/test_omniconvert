@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\ConstraintViolationList;
 
 /**
  * Class ApiController
+ *
  * @package App\Controller
  */
 class ApiController extends AbstractController
@@ -57,9 +60,9 @@ class ApiController extends AbstractController
     /**
      * Sets an error message and returns a JSON response
      *
-     * @param string $errors
+     * @param ConstraintValidator $violations
+     * @param array               $headers
      *
-     * @param array $headers
      * @return JsonResponse
      */
     public function respondWithErrors($violations, $headers = [])
@@ -67,8 +70,9 @@ class ApiController extends AbstractController
         $data = [
         ];
 
-        foreach ($violations as $key=>$violation) {
-            $data['errors'][$key]=$violation->getMessage();
+        /** @var ConstraintViolationList $violations */
+        foreach ($violations as $key => $violation) {
+            $data['errors'][$key] = $violation->getMessage();
         }
         return new JsonResponse($data, $this->getStatusCode(), $headers);
     }
@@ -88,7 +92,7 @@ class ApiController extends AbstractController
     /**
      * Returns a 422 Unprocessable Entity
      *
-     * @param string $message
+     * @param $violations
      *
      * @return JsonResponse
      */
@@ -96,18 +100,6 @@ class ApiController extends AbstractController
     {
         return $this->setStatusCode(422)->respondWithErrors($violations);
     }
-
-    /**
-     * Returns a 404 Not Found
-     *
-     * @param string $message
-     *
-     * @return JsonResponse
-     */
-//    public function respondNotFound($message = 'Not found!')
-//    {
-//        return $this->setStatusCode(404)->respondWithErrors($message);
-//    }
 
     /**
      * Returns a 201 Created

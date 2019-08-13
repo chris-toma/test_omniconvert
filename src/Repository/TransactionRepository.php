@@ -21,6 +21,7 @@ class TransactionRepository extends ServiceEntityRepository
 
     /**
      * @param Transaction $transaction
+     *
      * @return array
      */
     public function transform(Transaction $transaction)
@@ -30,6 +31,7 @@ class TransactionRepository extends ServiceEntityRepository
             'user_id'        => (string)$transaction->getUserId(),
             'transaction_id' => (int)$transaction->getTransactionId(),
             'amount'         => (float)$transaction->getAmount(),
+            'created_at'     => (string)$transaction->getCreatedAt(),
         ];
     }
 }

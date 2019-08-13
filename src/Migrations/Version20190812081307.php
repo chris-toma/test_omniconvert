@@ -23,6 +23,9 @@ final class Version20190812081307 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE transaction ADD created_at DATE NOT NULL');
+        $this->addSql('ALTER TABLE transaction ADD INDEX `user_id` (`user_id`);');
+        $this->addSql('ALTER TABLE transaction ADD INDEX `transaction_id` (`transaction_id`);');
+        $this->addSql('ALTER TABLE transaction ADD UNIQUE `user_transaction` (`user_id`, `transaction_id`);;');
     }
 
     public function down(Schema $schema) : void
@@ -31,5 +34,8 @@ final class Version20190812081307 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE transaction DROP created_at');
+        $this->addSql('ALTER TABLE transaction DROP index user_id');
+        $this->addSql('ALTER TABLE transaction DROP index transaction_id');
+        $this->addSql('ALTER TABLE transaction DROP index `user_transaction`');
     }
 }
