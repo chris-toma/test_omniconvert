@@ -136,14 +136,14 @@ class TransactionController extends ApiController
             666,
             777,
             888,
-            999
+            999,
         ];
         foreach ($users as $user) {
-            for ($i = 0; $i < 20; $i++) {
+            for ($i = 0; $i < mt_rand(100,3000); $i++) {
                 $transaction = new Transaction();
                 $transaction->setUserId($user);
-                $transaction->setTransactionId(mt_rand(1, 1000)+$i);
-                $transaction->setAmount(mt_rand(10, 100));
+                $transaction->setTransactionId(mt_rand(1, 100) . $i . mt_rand(1, 999));
+                $transaction->setAmount(mt_rand(1, 100));
                 $transaction->setCreatedAt(DateHelper::randomDateInRange('2019-01-01', date('Y-m-d')));
                 $em->persist($transaction);
             }
