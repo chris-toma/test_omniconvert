@@ -142,7 +142,7 @@ class TransactionController extends ApiController
             for ($i = 0; $i < 20; $i++) {
                 $transaction = new Transaction();
                 $transaction->setUserId($user);
-                $transaction->setTransactionId(mt_rand(10, 100));
+                $transaction->setTransactionId(mt_rand(1, 1000)+$i);
                 $transaction->setAmount(mt_rand(10, 100));
                 $transaction->setCreatedAt(DateHelper::randomDateInRange('2019-01-01', date('Y-m-d')));
                 $em->persist($transaction);
