@@ -3,7 +3,7 @@
 ```bash
 composer update
 ```
-set the database in env file
+create .env.local in root folder and add the connection to DB
 
 ```bash
 php bin/console doctrine:database:create  
