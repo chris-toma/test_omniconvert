@@ -43,6 +43,7 @@ class TransactionController extends ApiController
     {
         // only get request allowed
         if (!$request->isMethod('get')) {
+            // I would have gone for "405 method not allowed"
             return $this->respondUnauthorized(['The request needs to be get']);
         }
 
@@ -74,7 +75,11 @@ class TransactionController extends ApiController
         $violations = $validator->validate($data, $constraint);
         // Check for duplicates only if request data is valid
         if (0 === count($violations)) {
-            $conn = $em->getConnection();
+            // it would have been best to use the entity manager to fetch the record, using "findOneBy()" or "findBy()"
+            // writing sql directly in the contreller is a no-no in Symfony
+            // you can either fetch/update/delete using the entity manager, for simple cases
+            // or use the Repository to write complex SQL/DQL queries
+            $conn = $em-> getConnection();
             $stmt = $conn->prepare("SELECT id FROM transaction WHERE user_id = :user_id AND transaction_id = :transaction_id;");
             $stmt->execute([
                 'user_id'        => $data['user'],
@@ -82,11 +87,14 @@ class TransactionController extends ApiController
             ]);
             $exist = $stmt->fetchAll();
 
+            // could be set as a constraint on the entity, which would add a unique constraint in the db
             if ($exist) {
                 $violations[] = new ConstraintViolation('Duplicate entry', '', [], NULL, '', '');
             }
         }
 
+        // I would have written the count($violations) > 0 case first, and what's inside this block would have come below
+        // indented to the left; this makes the code easier to read in my oppinion
         if (0 === count($violations)) {
             // do the insert
             $transaction = new Transaction();
@@ -98,6 +106,9 @@ class TransactionController extends ApiController
             $em->flush();
         }
         else {
+            // a more elegant approach in Symfony would have been to throw an http exception, and create an exception listener
+            // that would convert the message into a user-friendly response, in the needed format (json/html/etc)
+            // @see https://symfony.com/doc/current/event_dispatcher.html
             return $this->respondValidationError($violations);
         }
         return $this->respondCreated($transactionRepository->transform($transaction));
@@ -126,6 +137,7 @@ class TransactionController extends ApiController
     {
         // deleteng all data from DB;
         $conn = $em->getConnection();
+        // maybe truncate? or did you think about permissions?
         $stmt = $conn->prepare("DELETE FROM transaction WHERE id>0");
         $stmt->execute();
 

@@ -11,12 +11,16 @@ use Symfony\Component\Validator\ConstraintViolationList;
  * Class ApiController
  *
  * @package App\Controller
+ *
+ * FOSRestBundle greatly helps with building RESTful APIs
  */
 class ApiController extends AbstractController
 {
 
     /**
      * @var integer HTTP status code - 200 (OK) by default
+     * constants already exist for the response status codes
+     * @see Symfony\Component\HttpFoundation\Response::HTTP_CREATED;
      */
     protected $statusCode = 200;
 

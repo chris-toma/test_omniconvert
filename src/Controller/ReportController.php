@@ -32,6 +32,7 @@ class ReportController extends AbstractController
     {
 
         //the form
+        // the form can also be created within its own class, in the Form namespace
         $form = $this->createFormBuilder(NULL, [
             'action' => '/report',
             'method' => 'GET',
@@ -61,12 +62,17 @@ class ReportController extends AbstractController
         // if the period comes from the form we compose the date condition
         $formData = $form->getData();
         if ($formData) {
+            // "in Symfony, everything should be a service"; so, this helper should be a service
+            // and no static method calls are recommended (mainly due to unit testing overhead)
             $conditions = QueryHelper::dateIntervalConditionDiscerner($formData['period']);
         }
 
         $conn = $em->getConnection();
 
         // top 5 users by transaction
+        // it would have been ideal to use placeholders and later on bind values - this way, the compiled query could
+        // have been reused (which is the main performance advantage of using prepared statements)
+        // @see TransactionController for the note on Repositories also
         $stmt = $conn->prepare('
                     SELECT user_id, count(transaction_id) AS transaction_count
                     FROM transaction ' . $conditions . '
@@ -77,6 +83,7 @@ class ReportController extends AbstractController
         $top5ByTransaction = $stmt->fetchAll();
 
         // Top 5 users, by transactions
+        //
         $stmt = $conn->prepare('
                     SELECT user_id, SUM(amount) AS amount_sum
                     FROM transaction ' . $conditions . '
